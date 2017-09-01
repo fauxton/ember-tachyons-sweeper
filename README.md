@@ -1,6 +1,16 @@
 # ember-tachyons-sweeper
 
-This README outlines the details of collaborating on this Ember addon.
+This addon aims to remove any unused css classes from both your application and
+vendor stylesheets. It is not [tachyons](http://tachyons.io/)-specific per se,
+but will only attempt to remove selectors where either:
+
+1. the element has matching CSS styles but is not used in any of the template files or
+2. a defined class is not used in any template files
+
+## Limitations
+
+This does not (yet) take into account classes that are added to the DOM via
+Ember or other JavaScript code. This includes `classNames`, `classNameBindings`, etc.
 
 ## Installation
 
