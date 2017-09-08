@@ -2,6 +2,7 @@
 'use strict';
 const htmlTags = require('html-tags');
 const diff = require('lodash/difference');
+const merge = require('lodash/merge');
 const compileCSS = require('broccoli-postcss');
 
 const removeableElements = () => {
@@ -18,12 +19,27 @@ const removeableElements = () => {
   );
 };
 
+const removeableClasses = () => {
+  const { getItemSync } = process.emberAddonStateBucket;
+  const cssClassesInApp = getItemSync('ember-dom-inventory:htmlClasses') || [];
+
+  if (cssClassesInApp.length) {
+    const klasses = cssClassesInApp.join('|');
+    const regex = new RegExp(`^\\.(?!(${klasses})$).*`)
+    return [regex];
+  }
+
+  const regexMatchingAllClasses = new RegExp(/^\..*$/);
+  return [regexMatchingAllClasses];
+};
+
 module.exports = {
   name: 'ember-tachyons-sweeper',
 
   postprocessTree(type, tree) {
 
     const selectorBlacklist = removeableElements();
+    const regexenBlacklist = removeableClasses();
 
     return compileCSS(tree, {
       plugins: [
@@ -37,6 +53,7 @@ module.exports = {
           module: require('postcss-strip-selectors'),
           options: {
             selectors: selectorBlacklist,
+            regexen: regexenBlacklist,
           },
         },
         {
