@@ -37,30 +37,32 @@ module.exports = {
   name: 'ember-tachyons-sweeper',
 
   postprocessTree(type, tree) {
+    if (type === 'css') {
+      const selectorBlacklist = removeableElements();
+      const regexenBlacklist = removeableClasses();
 
-    const selectorBlacklist = removeableElements();
-    const regexenBlacklist = removeableClasses();
-
-    return compileCSS(tree, {
-      plugins: [
-        {
-          module: require('postcss-discard-comments'),
-          options: {
-            removeAll: true
+      return compileCSS(tree, {
+        plugins: [
+          {
+            module: require('postcss-discard-comments'),
+            options: {
+              removeAll: true
+            },
           },
-        },
-        {
-          module: require('postcss-strip-selectors'),
-          options: {
-            selectors: selectorBlacklist,
-            regexen: regexenBlacklist,
+          {
+            module: require('postcss-strip-selectors'),
+            options: {
+              selectors: selectorBlacklist,
+              regexen: regexenBlacklist,
+            },
           },
-        },
-        {
-          module: require('postcss-discard-empty'),
-          options: {},
-        }
-      ]
-    });
+          {
+            module: require('postcss-discard-empty'),
+            options: {},
+          }
+        ]
+      });
+    }
+    return tree;
   },
 };
