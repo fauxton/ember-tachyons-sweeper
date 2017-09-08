@@ -26,11 +26,25 @@ const removeableClasses = () => {
   if (cssClassesInApp.length) {
     const klasses = cssClassesInApp.join('|');
     const regex = new RegExp(`^\\.(?!(${klasses})$).*`)
-    return [regex];
+    return regex;
   }
 
   const regexMatchingAllClasses = new RegExp(/^\..*$/);
-  return [regexMatchingAllClasses];
+  return regexMatchingAllClasses;
+};
+
+const removeableIds = () => {
+  const { getItemSync } = process.emberAddonStateBucket;
+  const idsInApp = getItemSync('ember-dom-inventory:htmlIds') || [];
+
+  if (idsInApp.length) {
+    const ids = idsInApp.join('|');
+    const regex = new RegExp(`^#(?!(${ids})$).*`)
+    return regex;
+  }
+
+  const regexMatchingAllIds = new RegExp(/^#.*$/);
+  return regexMatchingAllIds;
 };
 
 module.exports = {
@@ -39,7 +53,7 @@ module.exports = {
   postprocessTree(type, tree) {
     if (type === 'css') {
       const selectorBlacklist = removeableElements();
-      const regexenBlacklist = removeableClasses();
+      const regexenBlacklist = [removeableClasses(), removeableIds()];
 
       return compileCSS(tree, {
         plugins: [
