@@ -20,7 +20,7 @@
   "dependencies": {
     "broccoli-postcss": "^3.5.0",
     "ember-cli-babel": "^6.3.0",
-    "ember-dom-inventory": "0.0.7",
+    "ember-dom-inventory": "0.0.9",
     "ember-lodash": "^4.17.5",
     "html-tags": "^2.0.0",
     "postcss-discard-comments": "^2.0.4",
