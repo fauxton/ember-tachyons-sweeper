@@ -5,13 +5,16 @@ const diff = require('lodash/difference');
 const merge = require('lodash/merge');
 const compileCSS = require('broccoli-postcss');
 
+const fetch = (key) => {
+  const { getItemSync } = process.emberAddonStateBucket;
+  return getItemSync(`ember-dom-inventory:${key}`) || [];
+};
+
 const removeableElements = () => {
   const whitelistedTags = ['html', 'body'];
   const removeableTags = diff(htmlTags, whitelistedTags);
 
-  const { getItemSync } = process.emberAddonStateBucket;
-
-  const htmlElementsInApp = getItemSync('ember-dom-inventory:htmlElements') || [];
+  const htmlElementsInApp = fetch('htmlElements');
 
   return diff(
     removeableTags,
@@ -21,7 +24,7 @@ const removeableElements = () => {
 
 const removeableClasses = () => {
   const { getItemSync } = process.emberAddonStateBucket;
-  const cssClassesInApp = getItemSync('ember-dom-inventory:htmlClasses') || [];
+  const cssClassesInApp = fetch('htmlClasses')
 
   if (cssClassesInApp.length) {
     const klasses = cssClassesInApp.join('|');
@@ -34,8 +37,7 @@ const removeableClasses = () => {
 };
 
 const removeableIds = () => {
-  const { getItemSync } = process.emberAddonStateBucket;
-  const idsInApp = getItemSync('ember-dom-inventory:htmlIds') || [];
+  const idsInApp = fetch('htmlIds')
 
   if (idsInApp.length) {
     const ids = idsInApp.join('|');
