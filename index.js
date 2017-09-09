@@ -1,8 +1,8 @@
 /* eslint-env node */
 'use strict';
 const htmlTags = require('html-tags');
-const diff = require('lodash/difference');
-const merge = require('lodash/merge');
+const diff = require('lodash.difference');
+const merge = require('lodash.merge');
 const compileCSS = require('broccoli-postcss');
 
 const fetch = (key) => {
