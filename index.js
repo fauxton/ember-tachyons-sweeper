@@ -81,4 +81,12 @@ module.exports = {
     }
     return tree;
   },
+
+  afterInstall() {
+    return this.addAddonsToProject({
+      packages: [
+        { name: 'ember-dom-inventory' },
+      ],
+    });
+  },
 };
