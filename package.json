@@ -20,12 +20,12 @@
   "dependencies": {
     "broccoli-postcss": "^3.5.0",
     "ember-cli-babel": "^6.3.0",
-    "ember-dom-inventory": "0.0.10",
+    "ember-dom-inventory": "0.0.11",
     "lodash.difference": "4.5.0",
     "lodash.merge": "4.6.0",
     "html-tags": "^2.0.0",
     "postcss-discard-comments": "^2.0.4",
-    "postcss-strip-selectors": "0.0.4"
+    "postcss-strip-selectors": "0.0.5"
   },
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.5",
